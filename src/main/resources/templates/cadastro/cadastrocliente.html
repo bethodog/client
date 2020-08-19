@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+<!--  JQuery -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<style>
+h22 {
+	font-family: 'Calibri';
+	font-size: 30px;
+	text-align: center;
+	color: #102944;
+	align-items: center;
+	justify-content: center;
+}
+</style>
+
+<title>Cadastro de Clientes</title>
+</head>
+<body>
+		<div class="jumbotron">
+			<figure class="logo">
+				<img src="../../img/logo.jpg" alt="logo" class="logo">
+			</figure>
+			<h22 layout:fragment="header">BrasilPrev - Home Unbox</h22>
+
+		</div>
+		<p>
+	       <a href="/logout" class="btn btn-info btn-lg">
+	         <span class="glyphicon glyphicon-log-out"></span> logout
+	       </a>
+	     </p> 
+		
+		<div layout:fragment="content" class="container modalborda">
+		<form id="submitForm" action="saveClient" method="post">
+			<div class="form-row">
+			    <div class="form-group col-md-4 mb-3">
+			      <label for="validationDefault02">Nome*:</label>
+			      <input name="name" type="text" class="form-control" id="nome" placeholder="Nome" required>
+			    </div>
+	  		</div>
+		    <div class="form-row">
+		      <div class="form-group col-md-3 mb-3">
+		        <label for="validationDefault03">CPF*:</label>
+		        <input name="cpf" type="text" class="form-control cpf-mask" id="cpf" placeholder="CPF" required>
+		      </div>
+		      <div class="form-group col-md-4 mb-3">
+		        <label for="validationDefault04">Endereço:</label>
+		        <input name="address" type="text" class="form-control" id="endereco" placeholder="Endereço">
+		      </div>
+	  	    </div>
+			<div>
+				<button type="submit" class="btn btn-primary">Gravar</button>
+			</div>
+		</form>
+		<br>
+		<br>
+		<form id="editForm">
+			
+			<div class="alert alert-success" th:if="${globalMessage}"
+				th:text="${globalMessage}">mensagem</div>
+	
+			<table id="tableClient" class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td>Nome</td>
+						<td>CPF</td>
+						<td>Endereço</td>
+					</tr>
+				</thead>
+				<tbody>
+					  
+					<tr th:if="${clients.empty}">
+						<td colspan="3">Sem Clientes</td>
+					</tr>
+					
+					<tr th:each="client : ${clients}">
+						<td th:text="${client.name}"></td>
+						<td	th:text="${client.cpf}"></td>
+						<td th:text="${client.address}"></td>
+						<td>
+							<a class="btn btn-danger" href="deleteClient"
+									th:href="@{'/api/client/remove/' + ${client.id}}"
+									onclick="return confirm('Confirma a exclusão do cliente?');">Deletar</a>
+						</td>
+							
+					</tr>
+				</tbody>
+			</table>
+			<div class="btn-group" role="group" aria-label="VoltarHome">
+				<button type="button" class="btn btn-outline-secondary">
+					<a th:href="@{/}">home page</a>
+				</button>
+				<button type="button" class="btn btn-outline-primary">
+					<a th:href="@{/api/client/listClients}">atualizar</a>
+				</button>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>
